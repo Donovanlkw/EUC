@@ -1,0 +1,4 @@
+#get Installed software 
+
+$ComputerName = "XXX"
+Get-CimInstance -ComputerName $ComputerName -Class Win32_Product |select name 
