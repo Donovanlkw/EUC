@@ -1,0 +1,49 @@
+#-----WSUS Windows Internal Database
+
+$updateFeatures = @(
+  'UpdateServices-WidDB',
+  'UpdateServices-Services',
+  'UpdateServices-RSAT',
+  'UpdateServices-API',
+  'UpdateServices-UI'
+)
+Install-WindowsFeature -Name $updateFeatures
+
+# Create directory for WSUS storage
+$wsusContentPath = 'C:\wsus'
+New-Item -Path $wsusContentPath -ItemType Directory
+
+# Configure WSUS to use the WID in your specified location
+& 'C:\Program Files\Update Services\Tools\WsusUtil.exe' postinstall CONTENT_DIR=$wsusContentPath
+#Wsus is now setup with a WID to work with your SUP using a WID.
+
+#####################################################################################################################################
+
+#----- WSUS SQL Database
+$updateFeatures = @(
+  'UpdateServices-DB',
+  'UpdateServices-Services',
+  'UpdateServices-RSAT',
+  'UpdateServices-API',
+  'UpdateServices-UI'
+)
+
+Install-WindowsFeature -Name $updateFeatures
+
+# Create directory for WSUS storage
+$wsusContentPath = 'C:\wsus'
+New-Item -Path $wsusContentPath -ItemType Directory
+
+# Populate Sql server/instance details
+$sqlInstance = '' # Leave blank if default instance MSSQLSERVER
+$sqlServerName = $ENV:COMPUTERNAME
+
+$sqlInstanceName = "$sqlServerName\$sqlInstance"
+$sqlInstanceName = $sqlInstanceName.TrimEnd('\')
+
+# Configure WSUS to use the WID in your specified location
+New-Alias -Name WsusUtil -Value 'C:\Program Files\Update Services\Tools\WsusUtil.exe'
+
+WsusUtil postinstall SQL_INSTANCE_NAME=$sqlInstanceName CONTENT_DIR=$wsusContentPath
+
+  
