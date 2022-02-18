@@ -1,0 +1,16 @@
+[Settings]
+Priority=Default
+
+[Default]
+DeployRoot=\\172.16.54.202\DS$
+SkipBDDWelcome=NO
+KeyboardLocale=en-US
+UserID=Administrator
+UserDomain=MDT01
+UserPassword=Password1
+OSDAdapterCount=1
+OSDAdapter0EnableDHCP=FALSE
+OSDAdapter0IPAddressList=172.16.54.99
+OSDAdapter0SubnetMask=255.255.255.0
+OSDAdapter0Gateways=172.16.54.1
+OSDAdapter0DNSServerList=172.16.54.1
